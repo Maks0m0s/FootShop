@@ -1,0 +1,42 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div style="
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+    background: #3a3a3a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+">
+    <h2 style="color: #ffcc00; font-size: 28px; margin-bottom: 10px;">
+        {{ product }}
+    </h2>
+
+    <h3 style="color: lightgreen; margin-bottom: 15px;">
+        ✅ Added to Cart!
+    </h3>
+
+    <p style="color: #ddd; font-size: 16px; margin-bottom: 25px;">
+        Your item has been successfully added to your shopping cart.
+    </p>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+        <a href="{% url 'product-details' product.category.id product.id %}" class="btn btn-primary"
+           style="background-color: #2C66AB; border: none; padding: 10px 20px; border-radius: 8px;">
+           🔙 Back to Product
+        </a>
+
+        <a href="{% url 'cart' %}" class="btn btn-success"
+           style="background-color: #28a745; border: none; padding: 10px 20px; border-radius: 8px;">
+           🛒 Go to Cart
+        </a>
+
+        <a href="{% url 'home' %}" class="btn btn-secondary"
+           style="background-color: #555; border: none; padding: 10px 20px; border-radius: 8px;">
+           🏠 Home
+        </a>
+    </div>
+</div>
+{% endblock %}

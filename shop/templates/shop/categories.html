@@ -1,0 +1,17 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+  <h1 class="home-title" style="margin-top: 30px; font-size: 50px">CATEGORIES :</h1>
+  <div class="categories-container">
+      <div class="categories-grid">
+          {% for category in categories %}
+          <a href="{% url 'category-products' category.id %}" class="category-card">
+            <h3>{{ category.name }}</h3>
+            <p>{{ category.description }}</p>
+          </a>
+          {% empty %}
+          <h2>There isn't any category :(</h2>
+          {% endfor %}
+      </div>
+  </div>
+{% endblock %}

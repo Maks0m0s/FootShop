@@ -1,0 +1,36 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div style="
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+    background: #3a3a3a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+">
+    <h2 style="color: lightgreen; margin-bottom: 15px;">
+        ✅ Payment was completed!
+    </h2>
+
+    <p style="color: #ddd; font-size: 16px; margin-bottom: 25px;">
+        Your items have been ordered successfully. Now you can get theme by free delivery !
+    </p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+        <a href="{% url 'cart' %}" class="btn btn-secondary"
+           style="background-color: #555; border: none; padding: 10px 20px; border-radius: 8px;">
+           🛒 Go to Cart
+        </a>
+
+        <a href="{% url 'home' %}" class="btn btn-secondary"
+           style="background-color: #555; border: none; padding: 10px 20px; border-radius: 8px;">
+           🏠 Home
+        </a>
+
+        <a class="btn btn-secondary"
+           style="background-color: #555; border: none; padding: 10px 20px; border-radius: 8px;">
+           ✅ Go to Orders
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,518 @@
+/* Global reset & background */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #2e2e2e; /* dark gray background */
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #fff;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: #2e2e2e;
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    padding-top: 120px; /* fixed header spacing */
+    padding-bottom: 60px;
+}
+
+/* Header */
+.my-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #d4a017; /* dark yellow / golden mustard */
+    color: black; /* dark text for contrast */
+    padding: 10px 150px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    border: 2px solid black; /* softer border */
+    border-radius: 15px; /* rounded corners */
+
+    position: fixed;
+    top: 10px; /* slightly lower to show rounded edges */
+    left: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+/* Make links in header match style */
+.my-header a.btn {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 20px;
+    border: 2px solid black;
+    padding: 5px 15px;
+    border-radius: 10px; /* rounded buttons */
+    transition: all 0.3s ease;
+}
+
+.my-header a.btn:hover {
+    background-color: black;
+    color: #d4a017;
+}
+
+.my-header-title {
+            margin: 10px;
+        }
+
+        .my-header a.btn {
+            background-color: #333;
+            color: white;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+        }
+
+        .my-header a.btn:hover {
+            background-color: #555;
+            color: #FFD700;
+        }
+/* ===== HOME PAGE ===== */
+.home-content {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.footshop-title {
+    margin-top: 15px;
+}
+
+.home-title {
+    font-size: 70px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #ffcc00, #ff6600, #ff0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin: 0;
+}
+
+/* ===== CATEGORIES PAGE ===== */
+.categories-container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center; /* center the grid horizontally */
+    padding: 0 20px; /* optional padding on small screens */
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px; /* optional max width to keep it centered */
+    width: 100%;
+}
+
+.category-card {
+    background: #3a3a3a;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+.category-card h3 {
+    color: #ffcc00;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.category-card p {
+    font-size: 14px;
+    color: #ddd;
+}
+
+/* ===== ABOUT PAGE ===== */
+.about-section {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #3a3a3a;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    line-height: 1.8;
+}
+
+.about-section h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: #ffcc00;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    width: 100%;
+    background-color: #1a1a1a;
+    padding: 1.5rem 150px;
+    color: #ddd;
+}
+
+.footer h4 {
+    margin: 0 0 6px 0;
+    color: #ffcc00;
+}
+
+.footer a {
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    color: #ffcc00;
+}
+
+.footer-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+} /* ===== HOME PAGE WITH HERO IMAGE ===== */
+.home-content {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    background: url("https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a")
+                no-repeat center center;
+    background-size: cover;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dark overlay for readability */
+.home-content::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    pointer-events: none; /* <-- this allows clicks to pass through */
+}
+
+/* Ensure form card is above overlay */
+.auth-card {
+    position: relative; /* make sure it’s above overlay */
+    z-index: 1;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* single column by default */
+    gap: 15px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #2e2e2e;
+    color: #fff;
+}
+
+.field-error {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+@media (min-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr; /* two columns on bigger screens */
+        gap: 15px 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* Make sure the text is above overlay */
+.home-title {
+    position: relative;
+    font-size: 70px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #ffcc00, #ff6600, #ff0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin: 0;
+}
+
+.jersey-detail {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #3a3a3a;
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+.jersey-photo {
+    flex: 1;
+    min-width: 250px;
+}
+
+.jersey-photo img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.jersey-info {
+    flex: 2;
+    color: #fff;
+}
+
+.jersey-info h1 {
+    color: #ffcc00;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.jersey-price {
+    color: #ff6600;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.jersey-status.sold {
+    color: red;
+    font-weight: 600;
+}
+
+.jersey-status.available {
+    color: lightgreen;
+    font-weight: 600;
+}
+
+/* ===== JERSEYS LIST ===== */
+.jerseys-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.jerseys-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.jersey-card {
+    background: #3a3a3a;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jersey-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+.jersey-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.jersey-price {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff6600;
+    text-align: center;
+    background: #2e2e2e;
+    width: 100%;
+    border-top: 2px solid #1a1a1a;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* keep the current text color */
+}
+
+/* ===== AUTH BUTTONS ON HOME ===== */
+.auth-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.product-buttons {
+    margin-top: 35px;
+    display: flex;
+    gap: 10px;
+}
+
+.add-to-cart-b:hover {
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+.back-b:hover{
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+.btn-auth {
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #d4a017;
+    color: black;
+    border: 2px solid black;
+    transition: all 0.3s ease;
+}
+
+.btn-auth:hover {
+    background: black;
+    color: #d4a017;
+}
+
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.auth-card {
+    background: #3a3a3a;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.auth-title {
+    color: #ffcc00;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #2e2e2e;
+    color: #fff;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-auth {
+    background-color: #ffcc00;
+    color: black;
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid black;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-auth:hover {
+    background-color: black;
+    color: #ffcc00;
+}
+
+.btn-secondary {
+    background-color: #555;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #333;
+}
+.auth-buttons {
+    position: relative;
+    z-index: 10; /* make buttons clickable above the overlay */
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+input, textarea, select {
+    pointer-events: auto;
+    background-color: #fff; /* optional */
+    color: #000;           /* optional */
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.cart-table th, .cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+.cart-total {
+    text-align: right;
+    margin-top: 20px;
+}
+.checkout-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}

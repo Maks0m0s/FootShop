@@ -1,0 +1,9 @@
+Django>=4.0,<5.0
+psycopg2
+Pillow
+djangorestframework
+djangorestframework-simplejwt
+celery[redis]
+celery>=5.3
+python-dotenv
+stripe>=8.0.0

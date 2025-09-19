@@ -1,0 +1,35 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="home-content">
+    <div class="home-overlay auth-card">
+
+        <h2 class="home-title auth-title">Register</h2>
+
+        <form method="post" action="{% url 'auth-register' %}">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                    <p class="field-error">{{ field.errors }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-auth">Register</button>
+            </div>
+
+            <a href="{% url 'auth-login' %}" class="btn-auth btn-secondary" style="display:block; margin-top:15px; text-align:center;">
+                Already have an account? Login
+            </a>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
