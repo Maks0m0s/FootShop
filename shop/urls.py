@@ -33,7 +33,8 @@ urlpatterns = [
     path('cart/', CartViewSet.as_view({'get' : 'list'}), name='cart'),
     path('cart/<int:pk>/remove/', CartViewSet.as_view({'post' : 'remove'}), name='remove-from-cart'),
 
-    path("checkout/", CheckoutView.as_view(), name="checkout"),
+    path("cart/checkout/get/", CheckoutView.as_view(), name="checkout-get"),
+    path("cart/checkout/post/", CheckoutView.as_view(), name="checkout-post"),
     path("stripe/webhook/", stripe_webhook, name="stripe-webhook"),
     path('order/success_payment/', OrdersViewSet.as_view({'get' : 'success_payment'}), name='success-payment')
 ]

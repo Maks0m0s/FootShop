@@ -60,7 +60,7 @@
     </div>
 
     <div style="text-align:right; margin-top:25px;">
-      <form id="checkout-form" method="post" action="{% url 'checkout' %}">
+      <form id="checkout-form" method="get" action="{% url 'checkout-get' %}">
         {% csrf_token %}
         <button type="submit" style="background:#28a745; color:#fff; padding:14px 24px; border-radius:10px; text-decoration:none; font-size:20px; font-weight:700;">✅ Proceed to Payment</button>
       </form>
@@ -77,17 +77,4 @@
     {% endif %}
   </div>
 </div>
-<script>
-document.getElementById("checkout-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const response = await fetch("{% url 'checkout' %}", {
-        method: "POST",
-        headers: {"X-CSRFToken": "{{ csrf_token }}"},
-    });
-    const data = await response.json();
-    if (data.checkout_url) {
-        window.location.href = data.checkout_url;
-    }
-});
-</script>
 {% endblock %}

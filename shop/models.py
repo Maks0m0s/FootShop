@@ -29,6 +29,14 @@ class Size(models.Model):
     def __str__(self):
         return self.name
 
+class Destination(models.Model):
+    country = models.CharField(max_length=50)
+    address = models.CharField(max_length=200)
+    postal_code = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.address} - {self.country}"
+
 class Product(models.Model):
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     details = models.ManyToManyField("Detail", blank=True)
@@ -100,6 +108,8 @@ class OrderItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
+    arriving_date = models.DateTimeField(default=timezone.now()+timedelta(weeks=1))
 
     @property
     def total_price(self):

@@ -12,4 +12,4 @@ class OrdersViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='success_payment')
     def success_payment(self, request):
         order = save_order(request)
-        return Response({'order': order}, template_name="shop/success_payment.html")
+        return Response({'order':order}, template_name="shop/success_payment.html")
