@@ -1,0 +1,63 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="home-content">
+    <div class="home-overlay auth-card">
+
+        <h2 class="home-title auth-title">Checkout</h2>
+
+        <!-- Add an id for your form -->
+        <form id="checkout-form" method="post" action="{% url 'checkout-post' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="country">Country :</label>
+                <input type="text" name="country" id="country" placeholder="Enter your country">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address :</label>
+                <input type="text" name="address" id="address" placeholder="Enter your address">
+            </div>
+
+            <div class="form-group">
+                <label for="postal_code">Postal Code :</label>
+                <input type="text" name="postal_code" id="postal_code" placeholder="Enter your code">
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-auth">Proceed to Payment</button>
+            </div>
+
+            <a href="{% url 'cart' %}" class="btn-auth btn-secondary" style="display:block; margin-top:15px; text-align:center;">
+                Back
+            </a>
+        </form>
+
+        <script>
+        // Make sure the JS runs after the form exists
+        document.getElementById('checkout-form').addEventListener('submit', async function(e){
+            const country = document.getElementById('country').value;
+            const address = document.getElementById('address').value;
+            const postal_code = document.getElementById('postal_code').value;
+
+            const response = await fetch("{% url 'checkout-post' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({country, address, postal_code})
+            });
+
+            const data = await response.json();
+            if (data.checkout_url) {
+                window.location.href = data.checkout_url;
+            } else {
+                window.location.href = data.error;
+            }
+        });
+        </script>
+    </div>
+</div>
+{% endblock %}
