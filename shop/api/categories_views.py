@@ -3,7 +3,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
-from shop.models import Category, Jersey, Card, Ball
+from shop.models import Category, Jersey, Shorts
 
 
 class CategoriesViewSet(viewsets.ModelViewSet):
@@ -18,9 +18,8 @@ class CategoriesViewSet(viewsets.ModelViewSet):
         category = get_object_or_404(Category, id=pk)
         # Collect all products (jerseys, cards, balls) in this category
         jerseys = Jersey.objects.filter(category=category)
-        cards = Card.objects.filter(category=category)
-        balls = Ball.objects.filter(category=category)
-        products = list(jerseys) + list(cards) + list(balls)
+        shorts = Shorts.objects.filter(category=category)
+        products = list(jerseys) + list(shorts)
 
         return Response(
             {"category": category, "products": products},

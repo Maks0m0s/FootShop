@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from shop.services.email_service import send_registration_email
 
 def register(validated_data):
     user = User(
@@ -9,5 +10,7 @@ def register(validated_data):
     )
     user.set_password(validated_data["password"])
     user.save()
+
+    send_registration_email(user)
 
     return user

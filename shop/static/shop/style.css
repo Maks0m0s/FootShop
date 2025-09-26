@@ -516,3 +516,31 @@ input, textarea, select {
     text-decoration: none;
     border-radius: 5px;
 }
+
+.order-details-b:hover {
+    background:#0F6E26;
+}
+.order-details-b {
+    background:#28a745;
+}
+
+.proceed-to-payment-b:hover {
+    background:#0F6E26;
+}
+.proceed-to-payment-b {
+    background:#28a745;
+}
+
+.cart-remove-b:hover {
+    background:#8C1C06;
+}
+.cart-remove-b {
+    background:#B82609;
+}
+
+.blue-button:hover {
+    background:#184B87;
+}
+.blue-button {
+    background:#2C66AB;
+}

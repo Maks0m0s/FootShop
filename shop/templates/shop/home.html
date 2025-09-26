@@ -13,7 +13,7 @@
       <h3 class="home-title" style="font-size:28px; margin-top:10px;">Dear {{ request.user.username }}</h3>
       <div class="auth-buttons" style="flex-direction: column; gap: 15px; margin-top:30px; width : 400px; justify-self:center;">
         <a href="{% url 'cart' %}" class="btn-auth">My Cart 🛒</a>
-        <a class="btn-auth">My Orders 📦</a>
+        <a href="{% url 'orders-list' %}" class="btn-auth">My Orders 📦</a>
         <a href="{% url 'auth-logout' %}" class="btn-auth btn-secondary">Logout</a>
       </div>
     {% endif %}

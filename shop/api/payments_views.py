@@ -11,7 +11,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CheckoutView(APIView):
     def get(self, request):
-        return Response({}, template_name='shop/checkout.html')
+        return Response(template_name='shop/checkout.html')
 
     def post(self, request):
         cart_data = get_items(request)
@@ -51,7 +51,7 @@ class CheckoutView(APIView):
             payment_method_types=["card"],
             line_items=line_items,
             mode="payment",
-            success_url=request.build_absolute_uri("/order/success_payment/"),
+            success_url=request.build_absolute_uri("/orders/success_payment/"),
             cancel_url=request.build_absolute_uri("/cart/?canceled=true"),
         )
 

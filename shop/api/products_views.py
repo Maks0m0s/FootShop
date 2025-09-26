@@ -7,13 +7,13 @@ from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, MultiPartParser
 from django.shortcuts import get_object_or_404
 
-from shop.models import Jersey, Card, Ball, Size, Product
+from shop.models import Jersey, Shorts, Size, Product
 from shop.services import cart_service
 
 MODEL_MAP = {
     1: Jersey,
-    2: Card,
-    3: Ball,
+    2: Jersey,
+    3: Shorts,
 }
 
 class ProductsViewSet(viewsets.ViewSet):
@@ -46,6 +46,6 @@ class ProductsViewSet(viewsets.ViewSet):
             return redirect(response['redirect_to'])
 
         if response.get('status_ok', False):
-            return Response({'product': response['product']}, template_name="shop/successful_adding_to_cart.html")
+            return Response({'product': response['product'], 'item':response['item']}, template_name="shop/successful_adding_to_cart.html")
         else:
-            return Response(status=404)
+            return redirect('product-details', category_id=category_id, pk=pk)

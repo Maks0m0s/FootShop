@@ -51,33 +51,22 @@ class Product(models.Model):
 
 class Jersey(Product):
     club = models.CharField(max_length=100)
-    player = models.CharField(max_length=100, blank=True, null=True)
     brand = models.CharField(max_length=100, blank=True, null=True)
     year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(current_year)])
     sizes = models.ManyToManyField(Size)
 
     def __str__(self):
-        return f"Jersey: {self.club} - {self.player or 'No player'}"
+        return f"Jersey: {self.club}"
 
 
-class Card(Product):
-    player = models.CharField(max_length=100)
+class Shorts(Product):
     club = models.CharField(max_length=100)
     year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(current_year)])
     brand = models.CharField(max_length=100, blank=True, null=True)
+    sizes = models.ManyToManyField(Size)
 
     def __str__(self):
-        return f"Card: {self.player} ({self.club})"
-
-
-class Ball(Product):
-    name = models.CharField(max_length=100, blank=True, null=True)
-    brand = models.CharField(max_length=100, blank=True, null=True)
-    year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(current_year)])
-
-
-    def __str__(self):
-        return f"Ball: {self.name or 'Unnamed'}"
+        return f"Shorts: {self.club}"
 
 
 class ItemInCard(models.Model):
@@ -88,6 +77,8 @@ class ItemInCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='item_in_cart')
 
     quantity = models.PositiveIntegerField(default=1)
+    player = models.CharField(max_length=20, blank=True, null=True)
+    number = models.IntegerField(blank=True, null=True)
     chosen_size = models.ForeignKey(Size, on_delete=models.CASCADE, blank=True, null=True)
     adding_time = models.DateTimeField(default=timezone.now)
 
@@ -100,6 +91,8 @@ class OrderItem(models.Model):
     product_price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
     chosen_size = models.CharField(max_length=10, blank=True, null=True)
+    player = models.CharField(max_length=10, blank=True, null=True)
+    number = models.IntegerField(blank=True, null=True)
     product_category = models.CharField(max_length=100)
 
     def __str__(self):
@@ -109,7 +102,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
-    arriving_date = models.DateTimeField(default=timezone.now()+timedelta(weeks=1))
+    arriving_date = models.DateTimeField(default=timezone.now()+timedelta(days=15))
 
     @property
     def total_price(self):

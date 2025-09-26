@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 
-from shop.models import Jersey, Card, Ball, Size, ItemInCard, Product
+from shop.models import Jersey, Shorts, Size, ItemInCard, Product
 
 
 def add_to_cart(request, pk, category_id, MODEL_MAP):
@@ -24,29 +24,55 @@ def add_to_cart(request, pk, category_id, MODEL_MAP):
     if size_id:
         chosen_size = get_object_or_404(Size, id=size_id)
 
-        if isinstance(product, Jersey):
-            product.sizes.remove(chosen_size)
-            if product.sizes.count() == 0:
-                product.sold = True
-            else:
-                product.sold = False
-            product.save()  # ✅ Save the change
+        product.sizes.remove(chosen_size)
+        if product.sizes.count() == 0:
+            product.sold = True
+        else:
+            product.sold = False
+        product.save()  # ✅ Save the change
 
-    if not product.category.id == 1:
-        product.sold = True
-        product.save()
 
-    ItemInCard.objects.create(
+    jersey_name = request.POST.get("name-id")
+    jersey_number = request.POST.get("number-id")
+
+    # Only validate if inputs exist
+    if category_id != 3:
+        if jersey_name != '' and jersey_number != '':
+            # Check that name is not digits
+            if jersey_name.isdigit():
+                return {'status_ok': False, 'error': 'Name cannot be numeric'}
+
+            try:
+                jersey_number = int(jersey_number)
+            except ValueError:
+                return {'status_ok': False, 'error': 'Number must be an integer'}
+
+            if jersey_number < 1 or jersey_number > 99:
+                return {'status_ok': False, 'error': 'Number must be between 1 and 99'}
+        elif jersey_name != '' or jersey_number != '':
+            return {'status_ok': False, 'error': 'If you fill inputs, fill both of them.'}
+        else:
+            jersey_name = None
+            jersey_number = None
+    else:
+        jersey_name = None
+        jersey_number = None
+
+
+    item = ItemInCard.objects.create(
         content_type=ContentType.objects.get_for_model(model),
         object_id=product.id,
         user=request.user,  # ✅ now safe because we checked authentication
         quantity=1,
-        chosen_size=chosen_size
+        chosen_size=chosen_size,
+        player=jersey_name,
+        number=jersey_number
     )
 
     return {
         'status_ok': True,
-        'product': product
+        'product': product,
+        'item' : item
     }
 
 def get_items(request):
@@ -70,8 +96,7 @@ def remove_product(request, product_id):
     item.delete()
 
     product.sold = False
-    if product.category.id == 1:
-        product.sizes.add(size)
+    product.sizes.add(size)
     product.save()
 
     data = get_items(request)

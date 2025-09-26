@@ -1,0 +1,95 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="page-wrapper" style="padding: 80px 20px;">
+  <div class="cart-container" style="max-width: 1200px; margin: 0 auto;">
+
+    <h1 class="home-title" style="font-size: 50px; font-weight: 800; text-align:center; margin-bottom: 40px;">
+      📦 Order {{ index }}
+    </h1>
+
+    {% if order %}
+    <!-- Order Summary -->
+    <div style="background:#2c2c2c; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.4); margin-bottom: 20px;">
+      <table style="width:100%; border-collapse:collapse; font-size: 22px;">
+        <thead style="background:#1f1f1f;">
+          <tr>
+            <th style="padding:20px; text-align:center;">Created At</th>
+            <th style="padding:20px; text-align:center;">Aprox. Arriving</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#3a3a3a;">
+            <td style="padding:20px; font-weight:700; text-align:center;">
+              {{ order.created_at|date:"Y-m-d" }}
+            </td>
+            <td style="padding:20px; font-weight:700; text-align:center;">
+              {{ order.arriving_date|date:"Y-m-d" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ordered Items -->
+    <div style="background:#2c2c2c; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.4);">
+      <table style="width:100%; border-collapse:collapse; font-size: 22px;">
+        <thead style="background:#1f1f1f;">
+          <tr>
+            <th style="padding:16px; text-align:left;">Product</th>
+            <th style="padding:16px; text-align:center;">Size</th>
+            <th style="padding:16px; text-align:center;">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+          <tr style="background:#3a3a3a; border-bottom:1px solid #444;">
+            <td style="padding:20px; font-weight:700;">
+              {% if item.player and item.number %}
+                {{ item.product_name }} - {{ item.player }} ({{ item.number }})
+              {% else %}
+                {{ item.product_name }}
+              {% endif %}
+            </td>
+
+            <td style="padding:20px; text-align:center;">
+              {% if item.chosen_size %}
+              <span style="background:#ffcc00; color:#000; padding:6px 12px; border-radius:6px; font-size:18px; font-weight:700;">
+                {{ item.chosen_size }}
+              </span>
+              {% else %}
+              —
+              {% endif %}
+            </td>
+
+            <td style="padding:20px; text-align:center; color:#ff6600; font-weight:700;">
+              {{ item.product_price }} €
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+      <div style="display:flex; justify-content: space-between;">
+          <a href="{% url 'orders-list' %}"
+             class="blue-button"
+            style=" margin: 30px 25px; padding:10px 24px; border-radius:8px; text-decoration:none; font-size:20px; font-weight:500;">
+              Back
+          </a>
+        <div style="text-align:right; margin: 33px 25px; font-size:28px; font-weight:800;">
+          Total: <span style="color:#ff6600;">{{ order.total_price }} €</span>
+        </div>
+      </div>
+
+    {% else %}
+    <div style="background:#3a3a3a; padding:60px; border-radius:16px; text-align:center; color:#ddd; box-shadow:0 4px 15px rgba(0,0,0,0.4);">
+      <h2 style="color:#ffcc00; font-size:34px; margin-bottom:20px;">This order was not found</h2>
+      <a href="{% url 'orders-list' %}" style="background:#2C66AB; color:#fff; padding:16px 26px; border-radius:10px; text-decoration:none; font-size:22px;">
+        🔙 Back to Orders
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

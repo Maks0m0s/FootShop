@@ -36,7 +36,9 @@ urlpatterns = [
     path("cart/checkout/get/", CheckoutView.as_view(), name="checkout-get"),
     path("cart/checkout/post/", CheckoutView.as_view(), name="checkout-post"),
     path("stripe/webhook/", stripe_webhook, name="stripe-webhook"),
-    path('order/success_payment/', OrdersViewSet.as_view({'get' : 'success_payment'}), name='success-payment')
+    path('orders/success_payment/', OrdersViewSet.as_view({'get' : 'success_payment'}), name='success-payment'),
+    path('orders/', OrdersViewSet.as_view({'get' : 'list'}), name='orders-list'),
+    path('orders/<int:index>/<int:pk>/', OrdersViewSet.as_view({'get' : 'retrieve'}), name='order-details')
 ]
 
 if settings.DEBUG:
