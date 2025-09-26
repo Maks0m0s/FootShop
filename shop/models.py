@@ -91,7 +91,7 @@ class OrderItem(models.Model):
     product_price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
     chosen_size = models.CharField(max_length=10, blank=True, null=True)
-    player = models.CharField(max_length=10, blank=True, null=True)
+    player = models.CharField(max_length=20, blank=True, null=True)
     number = models.IntegerField(blank=True, null=True)
     product_category = models.CharField(max_length=100)
 
