@@ -6,7 +6,6 @@ from shop.models import Jersey, Shorts, Size, ItemInCard, Product
 
 def add_to_cart(request, pk, category_id, MODEL_MAP):
     if not request.user.is_authenticated:
-        # redirect to login with "next" so user can return to product page after login
         return {
             'status_ok': False,
             'redirect_to': '/auth/login/'

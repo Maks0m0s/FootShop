@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import FormParser, MultiPartParser
 
 from shop.models import ItemInCard

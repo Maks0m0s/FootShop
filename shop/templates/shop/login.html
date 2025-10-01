@@ -8,7 +8,6 @@
 
         <form method="post" action="{% url 'auth-login' %}">
             {% csrf_token %}
-
             <div class="form-group">
                 <label for="id_username">Username</label>
                 <input type="text" name="username" id="id_username" placeholder="Enter username">
@@ -27,6 +26,7 @@
                 Register Instead
             </a>
         </form>
+        <div id="login-errors" style="color:red; margin-top:10px;"></div>
 
     </div>
 </div>

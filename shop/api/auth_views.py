@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 
 class AuthViewSet(viewsets.ViewSet):
     renderer_classes = [TemplateHTMLRenderer]
-    parser_classes = [FormParser, MultiPartParser]  # <-- must include this
+    parser_classes = [FormParser, MultiPartParser]
     permission_classes = [permissions.AllowAny]
 
     @action(detail=False, methods=['get', 'post'], url_path='login')
