@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from shop.forms import LoginForm, RegisterForm
 from shop.services.auth_service import register as register_service
 from rest_framework.decorators import action
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
+
 
 class AuthViewSet(viewsets.ViewSet):
     renderer_classes = [TemplateHTMLRenderer]
@@ -24,8 +27,25 @@ class AuthViewSet(viewsets.ViewSet):
                     password=form.cleaned_data['password']
                 )
                 if user:
-                    login(request, user)
-                    return redirect('home')
+                    login(request, user)  # still keep Django session
+                    refresh = RefreshToken.for_user(user)
+
+                    response = redirect('home')
+                    response.set_cookie(
+                        key='access_token',
+                        value=str(refresh.access_token),
+                        httponly=True,
+                        secure=not settings.DEBUG,
+                        samesite='Lax'
+                    )
+                    response.set_cookie(
+                        key='refresh_token',
+                        value=str(refresh),
+                        httponly=True,
+                        secure=not settings.DEBUG,
+                        samesite='Lax'
+                    )
+                    return response
                 else:
                     form.add_error(None, 'Invalid credentials')
         else:
@@ -46,5 +66,8 @@ class AuthViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'], url_path='logout')
     def logout(self, request):
+        response = redirect('home')
+        response.delete_cookie('access_token')
+        response.delete_cookie('refresh_token')
         logout(request)
-        return redirect('home')
+        return response
