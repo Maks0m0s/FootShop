@@ -1,25 +1,43 @@
-import stripe
-import json
-from django.conf import settings
+from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
-
+from shop.serializers.checkout_serializer import CheckoutSerializer
 from shop.services.cart_service import get_items
+import stripe
+from django.conf import settings
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
 class CheckoutView(APIView):
     def get(self, request):
-        return Response(template_name='shop/checkout.html')
+        """
+        Render the empty checkout form without triggering errors.
+        We call is_valid() on an empty serializer to safely expose `.errors`.
+        """
+        serializer = CheckoutSerializer(data={})
+        serializer.is_valid()  # makes .errors safe to access in template
+        return Response({'serializer': serializer}, template_name='shop/checkout.html')
 
     def post(self, request):
+        serializer = CheckoutSerializer(data=request.data)
+        if not serializer.is_valid():
+            # Validation failed — re-render with field errors
+            return Response({'serializer': serializer}, template_name='shop/checkout.html', status=400)
+
+        # Cart data
         cart_data = get_items(request)
         items = cart_data['items']
-
         if not items:
-            return Response({"error": "Cart is empty"}, status=400)
+            # Example of non-field error
+            serializer._errors = {"non_field_errors": ["Cart is empty."]}
+            return Response({'serializer': serializer}, template_name='shop/checkout.html', status=400)
 
+        # Save validated info in session
+        data = serializer.validated_data
+        request.session['destination'] = data
+
+        # Stripe checkout
         line_items = [
             {
                 "price_data": {
@@ -32,21 +50,6 @@ class CheckoutView(APIView):
             for item in items
         ]
 
-        # Save destination info in session
-        data = request.data
-        country = data.get('country')
-        address = data.get('address')
-        postal_code = data.get('postal_code')
-
-        if country and address and postal_code:
-            request.session['destination'] = {
-                'country': data.get('country'),
-                'address': data.get('address'),
-                'postal_code': data.get('postal_code')
-            }
-        else:
-            return Response({"error": "Destination is empty."}, status=400)
-
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
             line_items=line_items,
@@ -55,4 +58,4 @@ class CheckoutView(APIView):
             cancel_url=request.build_absolute_uri("/cart/?canceled=true"),
         )
 
-        return Response({"checkout_url": session.url})
+        return redirect(session.url)

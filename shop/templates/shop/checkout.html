@@ -6,58 +6,62 @@
 
         <h2 class="home-title auth-title">Checkout</h2>
 
-        <!-- Add an id for your form -->
         <form id="checkout-form" method="post" action="{% url 'checkout-post' %}">
             {% csrf_token %}
 
+            {% if request.method == 'POST' and serializer.non_field_errors %}
+                <div class="error-message">
+                    {{ serializer.non_field_errors.0 }}
+                </div>
+            {% endif %}
+
             <div class="form-group">
                 <label for="country">Country :</label>
-                <input type="text" name="country" id="country" placeholder="Enter your country">
+                <input type="text" name="country" id="country"
+                       placeholder="Enter your country"
+                       value="{{ serializer.data.country|default_if_none:'' }}">
+                {% if request.method == 'POST' and serializer.errors.country %}
+                    <div class="error-message">{{ serializer.errors.country.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
                 <label for="address">Address :</label>
-                <input type="text" name="address" id="address" placeholder="Enter your address">
+                <input type="text" name="address" id="address"
+                       placeholder="Enter your address"
+                       value="{{ serializer.data.address|default_if_none:'' }}">
+                {% if request.method == 'POST' and serializer.errors.address %}
+                    <div class="error-message">{{ serializer.errors.address.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
                 <label for="postal_code">Postal Code :</label>
-                <input type="text" name="postal_code" id="postal_code" placeholder="Enter your code">
+                <input type="text" name="postal_code" id="postal_code"
+                       placeholder="Enter your code"
+                       value="{{ serializer.data.postal_code|default_if_none:'' }}">
+                {% if request.method == 'POST' and serializer.errors.postal_code %}
+                    <div class="error-message">{{ serializer.errors.postal_code.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-buttons">
                 <button type="submit" class="btn-auth">Proceed to Payment</button>
             </div>
 
-            <a href="{% url 'cart' %}" class="btn-auth btn-secondary" style="display:block; margin-top:15px; text-align:center;">
+            <a href="{% url 'cart' %}" class="btn-auth btn-secondary"
+               style="display:block; margin-top:15px; text-align:center;">
                 Back
             </a>
         </form>
-
-        <script>
-        // Make sure the JS runs after the form exists
-        document.getElementById('checkout-form').addEventListener('submit', async function(e){
-            const country = document.getElementById('country').value;
-            const address = document.getElementById('address').value;
-            const postal_code = document.getElementById('postal_code').value;
-
-            const response = await fetch("{% url 'checkout-post' %}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{{ csrf_token }}"
-                },
-                body: JSON.stringify({country, address, postal_code})
-            });
-
-            const data = await response.json();
-            if (data.checkout_url) {
-                window.location.href = data.checkout_url;
-            } else {
-                window.location.href = data.error;
-            }
-        });
-        </script>
     </div>
 </div>
+
+<style>
+.error-message {
+    color: #ff5a5a;
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+</style>
 {% endblock %}

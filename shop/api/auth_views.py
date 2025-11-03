@@ -18,8 +18,10 @@ class AuthViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get', 'post'], url_path='login')
     def login(self, request):
+        form_not_valid = False
+        form = LoginForm(request.POST or None)
+
         if request.method == 'POST':
-            form = LoginForm(request.POST)
             if form.is_valid():
                 user = authenticate(
                     request,
@@ -27,7 +29,7 @@ class AuthViewSet(viewsets.ViewSet):
                     password=form.cleaned_data['password']
                 )
                 if user:
-                    login(request, user)  # still keep Django session
+                    login(request, user)
                     refresh = RefreshToken.for_user(user)
 
                     response = redirect('home')
@@ -48,9 +50,10 @@ class AuthViewSet(viewsets.ViewSet):
                     return response
                 else:
                     form.add_error(None, 'Invalid credentials')
-        else:
-            form = LoginForm()
-        return Response({'form': form}, template_name='shop/login.html')
+            form_not_valid = True
+
+        return Response({'form': form, 'form_not_valid': form_not_valid}, template_name='shop/login.html')
+
 
     @action(detail=False, methods=['get', 'post'], url_path='register')
     def register(self, request):
