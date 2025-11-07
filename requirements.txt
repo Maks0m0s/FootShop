@@ -3,7 +3,8 @@ psycopg2-binary
 Pillow
 djangorestframework
 djangorestframework-simplejwt
-celery[redis]
-celery>=5.3
+celery[redis]>=5.3
 python-dotenv
 stripe>=8.0.0
+gunicorn
+whitenoise
