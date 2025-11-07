@@ -14,6 +14,7 @@ services:
       - key: REDIS_URL
         fromService:
           name: footshop-redis
+          type: redis        # ✅ REQUIRED
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
@@ -33,6 +34,7 @@ services:
       - key: REDIS_URL
         fromService:
           name: footshop-redis
+          type: redis        # ✅ REQUIRED
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
@@ -52,6 +54,7 @@ services:
       - key: REDIS_URL
         fromService:
           name: footshop-redis
+          type: redis        # ✅ REQUIRED
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
@@ -59,7 +62,7 @@ services:
   - type: redis
     name: footshop-redis
     plan: free
-    ipAllowList: []
+    ipAllowList: []   # required for redis in blueprints
 
 databases:
   - name: footshop-db
